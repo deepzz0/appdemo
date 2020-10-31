@@ -22,14 +22,19 @@ _sed_i() {
 printf 'Project [\33[1;32m%b\33[0m], initializing...\n' "$appname"
 
 _sed_i "1s/demo/$appname/" "conf/app.yml"
-echo "conf/app.yml done"
+echo "clean conf/app.yml"
 
 _sed_i "1s/$old/$new/" "go.mod"
-echo "go.mod done"
+echo "clean go.mod"
 
 find . -name "*.go" | while read fname; do
     _sed_i "s/$old/$new/g" "$fname"
 done
-echo "*.go done"
+echo "clean *.go"
+
+rm -rf .git
+echo "clean git repo"
+
+git init
 
 printf '\33[1;32m%b\33[0m' "Successful initialization."
