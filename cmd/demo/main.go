@@ -11,7 +11,8 @@ import (
 	"github.com/deepzz0/appdemo/pkg/config"
 	"github.com/deepzz0/appdemo/pkg/middleware"
 
-	"github.com/gin-gonic/contrib/sessions"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 )
 
@@ -30,7 +31,7 @@ func main() {
 	}
 	e.LoadHTMLGlob(glob)
 	// session store
-	store := sessions.NewCookieStore([]byte("ZGlzvcmUoMTAsICI="))
+	store := cookie.NewStore([]byte("ZGlzvcmUoMTAsICI="))
 	store.Options(sessions.Options{
 		MaxAge:   86400 * 30,
 		Path:     "/",
@@ -58,6 +59,7 @@ func main() {
 	}
 	authz := api.Use(user.AuthFilter)
 	{
+		authz.GET("/logout", user.HandleLogout)
 		authz.GET("/userinfo", user.HandleUserInfo)
 	}
 

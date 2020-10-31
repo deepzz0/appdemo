@@ -7,6 +7,10 @@ import (
 	"github.com/deepzz0/appdemo/pkg/db"
 )
 
+func init() {
+	db.DB.AutoMigrate(User{})
+}
+
 // User user info
 type User struct {
 	ID       int    `gorm:"primaryKey;autoIncrement"`
@@ -17,6 +21,24 @@ type User struct {
 	CreatedIP string    `gorm:"not null"`
 	UpdatedAt time.Time `gorm:"not null;default:now()"`
 	CreatedAt time.Time `gorm:"not null;default:now()"`
+}
+
+// SimpleUser simple user
+type SimpleUser struct {
+	ID        int       `json:"id"`
+	Username  string    `json:"username"`
+	UpdatedAt time.Time `json:"updated_at"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+// ForShow user for show
+func (u *User) ForShow() SimpleUser {
+	return SimpleUser{
+		ID:        u.ID,
+		Username:  u.Username,
+		UpdatedAt: u.UpdatedAt,
+		CreatedAt: u.CreatedAt,
+	}
 }
 
 // InsertUser insert user

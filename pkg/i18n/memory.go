@@ -56,6 +56,7 @@ var (
 	ErrInvalidPassword   MemoryCode = 1003
 	ErrIncorrectPassword MemoryCode = 1004
 	ErrNotLoggedIn       MemoryCode = 1005
+	ErrNotFoundUser      MemoryCode = 1006
 )
 
 var code2Desc = map[string]map[MemoryCode]string{
@@ -68,6 +69,7 @@ var code2Desc = map[string]map[MemoryCode]string{
 		ErrInvalidPassword:   "密码无效，至少6位",
 		ErrIncorrectPassword: "密码不正确，请核对",
 		ErrNotLoggedIn:       "用户未登录，请登录",
+		ErrNotFoundUser:      "用户不存在，请注册",
 	},
 	"en-us": {
 		Success: "operation success",
@@ -78,5 +80,6 @@ var code2Desc = map[string]map[MemoryCode]string{
 		ErrInvalidPassword:   "invalid passowrd, at least 6 characters",
 		ErrIncorrectPassword: "incorrect password，check please",
 		ErrNotLoggedIn:       "user not logged in，login please ",
+		ErrNotFoundUser:      "user not found, register please",
 	},
 }

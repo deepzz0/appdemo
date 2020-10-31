@@ -2,6 +2,7 @@
 package user
 
 import (
+	"encoding/gob"
 	"net/http"
 	"strings"
 
@@ -9,9 +10,14 @@ import (
 	"github.com/deepzz0/appdemo/pkg/msg"
 	"github.com/deepzz0/appdemo/pkg/user"
 
-	"github.com/gin-gonic/contrib/sessions"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
+
+func init() {
+	gob.Register(&user.User{})
+}
 
 // AuthFilter auth filter
 func AuthFilter(c *gin.Context) {
@@ -107,7 +113,11 @@ func HandleLogin(c *gin.Context) {
 	// valid user
 	u, err := user.SelectUserByUsername(req.Username)
 	if err != nil {
-		msg.Code = i18n.ErrSystemInternal
+		if err == gorm.ErrRecordNotFound {
+			msg.Code = i18n.ErrNotFoundUser
+		} else {
+			msg.Code = i18n.ErrSystemInternal
+		}
 		return
 	}
 	if u.Password != req.Password {
@@ -116,7 +126,25 @@ func HandleLogin(c *gin.Context) {
 	}
 	// login success
 	session := sessions.Default(c)
-	session.Set("uesr", u)
+	session.Set("user", u)
+	err = session.Save()
+	msg.Code = i18n.Success
+}
+
+// HandleLogout logout user
+// @Summary log out
+// @Description log out
+// @Tags User
+// @Accept json
+// @Produce json
+// @Success 200 {object} msg.Message
+// @Router /logout [get]
+func HandleLogout(c *gin.Context) {
+	msg := &msg.Message{}
+	defer msg.JSON(c)
+
+	session := sessions.Default(c)
+	session.Delete("user")
 	session.Save()
 	msg.Code = i18n.Success
 }
@@ -135,5 +163,5 @@ func HandleUserInfo(c *gin.Context) {
 
 	u := c.Keys["user"].(*user.User)
 	msg.Code = i18n.Success
-	msg.Data = u
+	msg.Data = u.ForShow()
 }

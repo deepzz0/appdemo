@@ -67,6 +67,21 @@ paths:
       summary: login user
       tags:
       - User
+  /logout:
+    get:
+      consumes:
+      - application/json
+      description: log out
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/msg.Message'
+      summary: log out
+      tags:
+      - User
   /register:
     post:
       consumes:
