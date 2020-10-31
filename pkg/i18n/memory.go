@@ -57,6 +57,7 @@ var (
 	ErrIncorrectPassword MemoryCode = 1004
 	ErrNotLoggedIn       MemoryCode = 1005
 	ErrNotFoundUser      MemoryCode = 1006
+	ErrAlreadyExistUser  MemoryCode = 1007
 )
 
 var code2Desc = map[string]map[MemoryCode]string{
@@ -70,6 +71,7 @@ var code2Desc = map[string]map[MemoryCode]string{
 		ErrIncorrectPassword: "密码不正确，请核对",
 		ErrNotLoggedIn:       "用户未登录，请登录",
 		ErrNotFoundUser:      "用户不存在，请注册",
+		ErrAlreadyExistUser:  "用户已存在，请登录",
 	},
 	"en-us": {
 		Success: "operation success",
@@ -81,5 +83,6 @@ var code2Desc = map[string]map[MemoryCode]string{
 		ErrIncorrectPassword: "incorrect password，check please",
 		ErrNotLoggedIn:       "user not logged in，login please ",
 		ErrNotFoundUser:      "user not found, register please",
+		ErrAlreadyExistUser:  "user already exist, login please",
 	},
 }

@@ -65,6 +65,16 @@ func HandleRegister(c *gin.Context) {
 		msg.Code = i18n.ErrInvalidPassword
 		return
 	}
+	// is exists
+	exist, err := user.IsExistUser(req.Username)
+	if err != nil {
+		msg.Code = i18n.ErrSystemInternal
+		return
+	}
+	if exist {
+		msg.Code = i18n.ErrAlreadyExistUser
+		return
+	}
 	// create user
 	u := &user.User{
 		Username: req.Username,
@@ -73,7 +83,7 @@ func HandleRegister(c *gin.Context) {
 		UserAgent: c.Request.UserAgent(),
 		CreatedIP: c.ClientIP(),
 	}
-	err := user.InsertUser(u)
+	err = user.InsertUser(u)
 	if err != nil {
 		msg.Code = i18n.ErrSystemInternal
 		return

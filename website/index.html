@@ -8,59 +8,120 @@
 </head>
 
 <body>
-    <div id="form">
-        账户: <input type="text" name="username" value=""><br>
-        密码: <input type="text" name="password" value=""><br>
-        <button id="login" onclick="login">登录</button>
-        <button id="register" onclick="register">注册</button>
+    <div id="form" style="display: none">
+        账户: <input type="text" id="username" autofocus="true" value=""><br>
+        密码: <input type="password" id="password" value=""><br>
+        <button id="login" onclick="login()">登录</button>
+        <button id="register" onclick="register()">注册</button>
     </div>
-    <div id="userinfo">
-        info
-        <br />
-        <button id="logout" onclick="logout">登出</button>
+    <div id="userinfo" style="display: none">
+        ID: <label id="user.id"></label><br>
+        账户: <label id="user.username"></label><br>
+        最后更新: <label id="user.updated_at"></label><br>
+        注册时间: <label id="user.created_at"></label><br>
+        <button id="logout" onclick="logout()">登出</button>
     </div>
-    <div id="message">12312</div>
-</body>
-<script type="text/javascript">
-function request(url, options) {
-    fetch(url, options)
-        .then(resp => {
-            if (resp.status >= 200 && resp.status < 300) {
-                return resp;
-            }
-            // unauthorize
-            if (resp.status == 401) {
+    <div id="message" style="color: red"></div>
+    <script type="text/javascript">
+    function request(url, options) {
+        return fetch(url, options)
+            .then(resp => {
+                if (resp.status >= 200 && resp.status < 300) {
+                    return resp;
+                }
+                if (resp.status >= 400 && resp.status !== 401 && resp.status < 500) {
+                    return resp;
+                }
+                const error = new Error(resp.statusText);
+                error.response = resp;
+                throw error;
+            })
+            .then(resp => {
+                if (resp.status === 204 || resp.status === 205) {
+                    return null;
+                }
+                return resp.json();
+            })
+    }
+
+    function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const body = { username, password };
+        request('/api/login', {
+            method: 'POST',
+            body: JSON.stringify(body),
+        }).then(resp => {
+            if (resp.code === 0) {
                 document.getElementById('form').style.display = 'none';
-                return
+                document.getElementById('message').innerHTML = '';
+                userinfo();
+            } else {
+                document.getElementById('message').innerHTML = resp.error;
             }
-            const error = new Error(resp.statusText);
-            error.response = resp;
-            throw error;
+        }).catch(err => {
+            document.getElementById('message').innerHTML = err;
         })
-        .then(resp => {
-            if (resp.status === 204 || resp.status === 205) {
-                return null;
+    }
+
+    function register() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const body = { username, password };
+        request('/api/register', {
+            method: 'POST',
+            body: JSON.stringify(body),
+        }).then(resp => {
+            if (resp.code === 0) {
+                document.getElementById('message').innerHTML = resp.data;
+            } else {
+                document.getElementById('message').innerHTML = resp.error;
             }
-            return resp.json();
+        }).catch(err => {
+            document.getElementById('message').innerHTML = err;
         })
-}
 
-function login() {
+    }
 
-}
+    function logout() {
+        request('/api/logout').then(resp => {
+            if (resp.code === 0) {
+                document.getElementById('form').style.display = 'block';
+                document.getElementById('userinfo').style.display = 'none';
+                document.getElementById('message').innerHTML = '';
+            } else {
+                document.getElementById('message').innerHTML = resp.error;
+            }
+        }).catch(err => {
+            document.getElementById('message').innerHTML = err;
+        })
 
-function register() {
+    }
 
-}
+    function userinfo() {
+        request('/api/userinfo').then(resp => {
+            if (resp.code === 0) {
+                document.getElementById('form').style.display = 'none';
+                document.getElementById('userinfo').style.display = 'block';
+                document.getElementById('message').innerHTML = '';
 
-function logout() {
-
-}
-
-function userinfo() {
-
-}
-userinfo();
-</script>
+                document.getElementById('user.id').innerHTML = resp.data.id;
+                document.getElementById('user.username').innerHTML = resp.data.username;
+                document.getElementById('user.updated_at').innerHTML = resp.data.updated_at;
+                document.getElementById('user.created_at').innerHTML = resp.data.created_at;
+            } else {
+                document.getElementById('form').style.display = 'block';
+                document.getElementById('userinfo').style.display = 'none';
+                document.getElementById('message').innerHTML = resp.error;
+            }
+        }).catch(err => {
+            document.getElementById('form').style.display = 'block';
+            document.getElementById('userinfo').style.display = 'none';
+            document.getElementById('message').innerHTML = err;
+        })
+    }
+    userinfo();
+    </script>
+</body>
 
 </html>

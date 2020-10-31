@@ -41,6 +41,14 @@ func (u *User) ForShow() SimpleUser {
 	}
 }
 
+// IsExistUser exist user?
+func IsExistUser(username string) (bool, error) {
+	var count int64 = 0
+	err := db.DB.Model(User{}).Where("username=?", username).
+		Count(&count).Error
+	return count > 0, err
+}
+
 // InsertUser insert user
 func InsertUser(u *User) error {
 	return db.DB.Create(u).Error

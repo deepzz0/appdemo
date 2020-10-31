@@ -2,6 +2,8 @@
 package msg
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,9 +23,10 @@ type Message struct {
 
 // JSON response as json
 func (msg *Message) JSON(c *gin.Context) {
-	if msg.Error == "" {
+	status := msg.Code.StatusCode()
+	if status != http.StatusOK && msg.Error == "" {
 		lang := c.Keys["lang"].(string)
 		msg.Error = msg.Code.Tr(lang)
 	}
-	c.JSON(msg.Code.StatusCode(), msg)
+	c.JSON(status, msg)
 }
