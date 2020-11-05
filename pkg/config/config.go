@@ -17,8 +17,8 @@ var (
 	ModeDev = "dev"
 	// ModeProd run mode as production
 	ModeProd = "prod"
-	// Gopath go path
-	Gopath = os.Getenv("GOPATH")
+	// WorkDir workspace dir
+	WorkDir string
 )
 
 // Mode run mode
@@ -44,11 +44,12 @@ type Config struct {
 // load config file
 func init() {
 	// compatibility linux and windows
-	path := filepath.Join("conf", "app.yml")
-	if Gopath != "" {
-		path = filepath.Join(Gopath, "src", "github.com",
-			"deepzz0", "appdemo", path)
+	var err error
+	WorkDir, err = os.Getwd()
+	if err != nil {
+		panic(err)
 	}
+	path := filepath.Join(WorkDir, "conf", "app.yml")
 
 	data, err := ioutil.ReadFile(path)
 	if err != nil {

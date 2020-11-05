@@ -24,11 +24,7 @@ func main() {
 	}
 	e := gin.Default()
 	// load html
-	glob := filepath.Join("website", "*.html")
-	if config.Gopath != "" {
-		glob = filepath.Join(config.Gopath, "src",
-			"github.com", "deepzz0", "appdemo", glob)
-	}
+	glob := filepath.Join(config.WorkDir, "website", "*.html")
 	e.LoadHTMLGlob(glob)
 	// session store
 	store := cookie.NewStore([]byte("ZGlzvcmUoMTAsICI="))
