@@ -11,7 +11,7 @@ $ git clone git@github.com:deepzz0/appdemo.git <app name>
 3、Enter your app, run:
 ```
 $ cd <app name>
-$ make app
+$ make _app
 ```
 
 3、Push the code to new repo:
