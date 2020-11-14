@@ -1,5 +1,5 @@
 appname: demo
-appmode:
+appdemo:
   enablehttp: true
   httpport: 9000
 database:

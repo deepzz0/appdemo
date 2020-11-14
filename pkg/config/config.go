@@ -37,7 +37,7 @@ type Database struct {
 type Config struct {
 	RunMode  string   `yaml:"runmode"`
 	AppName  string   `yaml:"appname"`
-	AppMode  Mode     `yaml:"appmode"`
+	AppDemo  Mode     `yaml:"appdemo"`
 	Database Database `yaml:"database"`
 }
 

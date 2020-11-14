@@ -60,7 +60,7 @@ func main() {
 	}
 
 	// start
-	if config.Conf.AppMode.EnableHTTP {
-		e.Run(fmt.Sprintf(":%d", config.Conf.AppMode.HTTPPort))
+	if config.Conf.AppDemo.EnableHTTP {
+		e.Run(fmt.Sprintf(":%d", config.Conf.AppDemo.HTTPPort))
 	}
 }
