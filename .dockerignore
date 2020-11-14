@@ -1,0 +1,10 @@
+# Ignore all files and dirs
+*
+
+# Unignore files or dirs
+!build
+!bin
+!conf
+!CHANGELOG.md
+!LICENSE
+!README.md
