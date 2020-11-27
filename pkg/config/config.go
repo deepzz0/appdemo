@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"gopkg.in/yaml.v2"
 )
@@ -37,7 +38,7 @@ type Database struct {
 type Config struct {
 	RunMode  string   `yaml:"runmode"`
 	AppName  string   `yaml:"appname"`
-	AppDemo  Mode     `yaml:"appdemo"`
+	DemoApp  Mode     `yaml:"demoapp"`
 	Database Database `yaml:"database"`
 }
 
@@ -65,5 +66,18 @@ func init() {
 			panic("invalid RUN_MODE from env: " + runmode)
 		}
 		Conf.RunMode = runmode
+	}
+	// read env
+	readDBEnv()
+}
+
+func readDBEnv() {
+	key := strings.ToUpper(Conf.AppName) + "_DB_DRIVER"
+	if d := os.Getenv(key); d != "" {
+		Conf.Database.Driver = d
+	}
+	key = strings.ToUpper(Conf.AppName) + "_DB_SOURCE"
+	if s := os.Getenv(key); s != "" {
+		Conf.Database.Source = s
 	}
 }

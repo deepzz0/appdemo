@@ -39,8 +39,8 @@ func main() {
 	// middleware
 	e.Use(middleware.SetLanguage)
 
-	// router
-	e.GET("/swagger/*any", swag.HandleSwagger)
+	// swag
+	swag.RegisterRoutes(e)
 
 	// static files, page
 	e.GET("/", func(c *gin.Context) {
@@ -48,19 +48,17 @@ func main() {
 	})
 
 	// api router
-	api := e.Group("/api")
+	group := e.Group("/api")
 	{
-		api.POST("/register", user.HandleRegister)
-		api.POST("/login", user.HandleLogin)
+		user.RegisterRoutes(group)
 	}
-	authz := api.Use(user.AuthFilter)
+	group = e.Group("/api", user.AuthFilter)
 	{
-		authz.GET("/logout", user.HandleLogout)
-		authz.GET("/userinfo", user.HandleUserInfo)
+		user.RegisterRoutesAuthz(group)
 	}
 
 	// start
-	if config.Conf.AppDemo.EnableHTTP {
-		e.Run(fmt.Sprintf(":%d", config.Conf.AppDemo.HTTPPort))
+	if config.Conf.DemoApp.EnableHTTP {
+		e.Run(fmt.Sprintf(":%d", config.Conf.DemoApp.HTTPPort))
 	}
 }

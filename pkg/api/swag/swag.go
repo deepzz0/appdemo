@@ -4,9 +4,12 @@ package swag
 import (
 	_ "github.com/deepzz0/appdemo/docs" // docs
 
+	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
-// HandleSwagger swagger docs
-var HandleSwagger = ginSwagger.WrapHandler(swaggerFiles.Handler)
+// RegisterRoutes register routes
+func RegisterRoutes(group gin.IRoutes) {
+	group.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+}

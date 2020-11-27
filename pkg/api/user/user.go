@@ -19,6 +19,18 @@ func init() {
 	gob.Register(&user.User{})
 }
 
+// RegisterRoutes register routes
+func RegisterRoutes(group gin.IRoutes) {
+	group.POST("/register", handleRegister)
+	group.POST("/login", handleLogin)
+}
+
+// RegisterRoutesAuthz register routes
+func RegisterRoutesAuthz(group gin.IRoutes) {
+	group.GET("/logout", handleLogout)
+	group.GET("/userinfo", handleUserInfo)
+}
+
 // AuthFilter auth filter
 func AuthFilter(c *gin.Context) {
 	session := sessions.Default(c)
@@ -38,7 +50,7 @@ type registerReq struct {
 	Password string `json:"password"`
 }
 
-// HandleRegister register user
+// handleRegister register user
 // @Summary register user
 // @Description register user
 // @Tags User
@@ -47,7 +59,7 @@ type registerReq struct {
 // @Param req body registerReq true "register info"
 // @Success 200 {object} msg.Message
 // @Router /register [post]
-func HandleRegister(c *gin.Context) {
+func handleRegister(c *gin.Context) {
 	msg := &msg.Message{}
 	defer msg.JSON(c)
 
@@ -93,7 +105,7 @@ func HandleRegister(c *gin.Context) {
 
 type loginReq registerReq
 
-// HandleLogin login user
+// handleLogin login user
 // @Summary login user
 // @Description login user
 // @Tags User
@@ -102,7 +114,7 @@ type loginReq registerReq
 // @Param req body loginReq true "login info"
 // @Success 200 {object} msg.Message
 // @Router /login [post]
-func HandleLogin(c *gin.Context) {
+func handleLogin(c *gin.Context) {
 	msg := &msg.Message{}
 	defer msg.JSON(c)
 
@@ -141,7 +153,7 @@ func HandleLogin(c *gin.Context) {
 	msg.Code = i18n.Success
 }
 
-// HandleLogout logout user
+// handleLogout logout user
 // @Summary log out
 // @Description log out
 // @Tags User
@@ -149,7 +161,7 @@ func HandleLogin(c *gin.Context) {
 // @Produce json
 // @Success 200 {object} msg.Message
 // @Router /logout [get]
-func HandleLogout(c *gin.Context) {
+func handleLogout(c *gin.Context) {
 	msg := &msg.Message{}
 	defer msg.JSON(c)
 
@@ -159,7 +171,7 @@ func HandleLogout(c *gin.Context) {
 	msg.Code = i18n.Success
 }
 
-// HandleUserInfo user info
+// handleUserInfo user info
 // @Summary user info
 // @Description user info
 // @Tags User
@@ -167,7 +179,7 @@ func HandleLogout(c *gin.Context) {
 // @Produce json
 // @Success 200 {object} user.User
 // @Router /userinfo [get]
-func HandleUserInfo(c *gin.Context) {
+func handleUserInfo(c *gin.Context) {
 	msg := &msg.Message{}
 	defer msg.JSON(c)
 
