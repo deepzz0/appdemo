@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"github.com/deepzz0/appdemo/pkg/i18n"
+	"github.com/deepzz0/appdemo/pkg/model/user"
 	"github.com/deepzz0/appdemo/pkg/msg"
-	"github.com/deepzz0/appdemo/pkg/user"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"

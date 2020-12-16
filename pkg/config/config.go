@@ -38,8 +38,8 @@ type Database struct {
 type Config struct {
 	RunMode  string   `yaml:"runmode"`
 	AppName  string   `yaml:"appname"`
-	DemoApp  Mode     `yaml:"demoapp"`
 	Database Database `yaml:"database"`
+	DemoApp  Mode     `yaml:"demoapp"`
 }
 
 // load config file
