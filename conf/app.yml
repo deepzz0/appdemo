@@ -1,7 +1,7 @@
 appname: demo
-demoapp:
-  enablehttp: true
-  httpport: 9000
 database:
   driver: postgres
   source: host=127.0.0.1 port=5432 user=postgres dbname=example sslmode=disable password=MTI3LjAuMC4x
+demoapp:
+  enablehttp: true
+  httpport: 9000

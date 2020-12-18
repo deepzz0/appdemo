@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/deepzz0/appdemo/pkg/api/swag"
-	"github.com/deepzz0/appdemo/pkg/api/user"
 	"github.com/deepzz0/appdemo/pkg/config"
-	"github.com/deepzz0/appdemo/pkg/middleware"
+	"github.com/deepzz0/appdemo/pkg/core/demo/swag"
+	"github.com/deepzz0/appdemo/pkg/core/demo/user"
+	"github.com/deepzz0/appdemo/pkg/mid"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -37,7 +37,7 @@ func main() {
 	e.Use(sessions.Sessions("SESSION_ID", store))
 
 	// middleware
-	e.Use(middleware.SetLanguage)
+	e.Use(mid.SetLanguage)
 
 	// swag
 	swag.RegisterRoutes(e)

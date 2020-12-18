@@ -4,7 +4,7 @@ package user
 import (
 	"time"
 
-	"github.com/deepzz0/appdemo/pkg/db"
+	"github.com/deepzz0/appdemo/pkg/connector/db"
 )
 
 func init() {

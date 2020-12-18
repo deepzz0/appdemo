@@ -1,5 +1,5 @@
-// Package api provides ...
-package api
+// Package demo provides ...
+package demo
 
 // @title APP Demo API
 // @version 1.0

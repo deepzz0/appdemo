@@ -3,13 +3,11 @@ definitions:
   msg.Message:
     properties:
       code:
-        $ref: '#/definitions/msg.RespCode'
+        type: RespCode
       data:
         type: object
       error:
         type: string
-    type: object
-  msg.RespCode:
     type: object
   user.User:
     properties:
@@ -29,12 +27,7 @@ definitions:
         type: string
     type: object
   user.loginReq:
-    properties:
-      password:
-        type: string
-      username:
-        type: string
-    type: object
+    $ref: '#/definitions/user.registerReq'
   user.registerReq:
     properties:
       password:
@@ -45,6 +38,7 @@ definitions:
 info:
   contact: {}
   description: This is a sample server celler server.
+  license: {}
   title: APP Demo API
   version: "1.0"
 paths:

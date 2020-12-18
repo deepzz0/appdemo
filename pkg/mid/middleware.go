@@ -1,10 +1,11 @@
-// Package middleware provides ...
-package middleware
+// Package mid provides ...
+package mid
 
 import (
 	"strings"
 
 	"github.com/deepzz0/appdemo/pkg/i18n"
+
 	"github.com/gin-gonic/gin"
 )
 

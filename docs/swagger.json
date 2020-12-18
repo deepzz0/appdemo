@@ -4,7 +4,6 @@
         "description": "This is a sample server celler server.",
         "title": "APP Demo API",
         "contact": {},
-        "license": {},
         "version": "1.0"
     },
     "basePath": "/api",
@@ -129,7 +128,6 @@
             "type": "object",
             "properties": {
                 "code": {
-                    "type": "object",
                     "$ref": "#/definitions/msg.RespCode"
                 },
                 "data": {
@@ -170,7 +168,15 @@
             }
         },
         "user.loginReq": {
-            "$ref": "#/definitions/user.registerReq"
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
         },
         "user.registerReq": {
             "type": "object",
