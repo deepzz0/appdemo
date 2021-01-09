@@ -3,64 +3,24 @@ package i18n
 
 import (
 	"fmt"
-	"net/http"
 )
 
-// DefaultLang default lang
-const DefaultLang = "zh-cn"
+// MemoryTranslator memory translator
+type MemoryTranslator struct{}
 
-// MemoryCode memory code
-type MemoryCode int
+// Tr translate lang
+func (trans MemoryTranslator) Tr(lang string, code ErrorCode,
+	args ...interface{}) string {
 
-// Tr translate code to description
-func (code MemoryCode) Tr(lang string) string {
-	if code.IsExist(lang) {
-		lang = DefaultLang
-	}
 	codes := code2Desc[lang]
 	desc, ok := codes[code]
 	if !ok {
 		return fmt.Sprint(code)
 	}
-	return desc
+	return fmt.Sprintf(desc, args...)
 }
 
-// StatusCode http status code
-func (code MemoryCode) StatusCode() int {
-	switch code {
-	case Success:
-		return http.StatusOK
-
-	default:
-		return http.StatusBadRequest
-	}
-}
-
-// IsExist is supported language
-func (code MemoryCode) IsExist(lang string) bool {
-	for k := range code2Desc {
-		if k == lang {
-			return true
-		}
-	}
-	return false
-}
-
-// response code
-var (
-	Success MemoryCode = 0
-
-	ErrSystemInternal    MemoryCode = 1000
-	ErrBadRequest        MemoryCode = 1001
-	ErrInvalidUsername   MemoryCode = 1002
-	ErrInvalidPassword   MemoryCode = 1003
-	ErrIncorrectPassword MemoryCode = 1004
-	ErrNotLoggedIn       MemoryCode = 1005
-	ErrNotFoundUser      MemoryCode = 1006
-	ErrAlreadyExistUser  MemoryCode = 1007
-)
-
-var code2Desc = map[string]map[MemoryCode]string{
+var code2Desc = map[string]map[ErrorCode]string{
 	"zh-cn": {
 		Success: "操作成功",
 

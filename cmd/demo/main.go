@@ -9,10 +9,9 @@ import (
 	"github.com/deepzz0/appdemo/pkg/config"
 	"github.com/deepzz0/appdemo/pkg/core/demo/swag"
 	"github.com/deepzz0/appdemo/pkg/core/demo/user"
+	"github.com/deepzz0/appdemo/pkg/i18n"
 	"github.com/deepzz0/appdemo/pkg/mid"
 
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,18 +25,17 @@ func main() {
 	// load html
 	glob := filepath.Join(config.WorkDir, "website", "*.html")
 	e.LoadHTMLGlob(glob)
-	// session store
-	store := cookie.NewStore([]byte("ZGlzvcmUoMTAsICI="))
-	store.Options(sessions.Options{
-		MaxAge:   86400 * 30,
-		Path:     "/",
-		Secure:   config.Conf.RunMode == config.ModeProd,
-		HttpOnly: true,
-	})
-	e.Use(sessions.Sessions("SESSION_ID", store))
 
 	// middleware
-	e.Use(mid.SetLanguage)
+	e.Use(mid.LangMiddleware(mid.LangOpts{
+		CookieName: "lang",
+		Default:    i18n.GetDefaultLang(),
+		Supported:  i18n.GetSupportedLang(),
+	}))
+	e.Use(mid.SessionMiddleware(mid.SessionOpts{
+		Secure: config.Conf.RunMode == config.ModeProd,
+		Secret: []byte("ZGlzvcmUoMTAsICI="),
+	}))
 
 	// swag
 	swag.RegisterRoutes(e)

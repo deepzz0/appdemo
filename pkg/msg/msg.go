@@ -9,9 +9,8 @@ import (
 
 // RespCode api response code
 type RespCode interface {
-	Tr(lang string) string
+	Tr(lang string, args ...interface{}) string
 	StatusCode() int
-	IsExist(lang string) bool
 }
 
 // Message response message
