@@ -5,7 +5,7 @@ COPY README.md /app/README.md
 COPY CHANGELOG.md /app/CHANGELOG.md
 COPY LICENSE /app/LICENSE
 
-COPY bin/demo /app/backend
+COPY bin/backend /app/backend
 COPY conf /app/conf
 
 EXPOSE 9000
