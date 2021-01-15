@@ -2,7 +2,7 @@
 package swag
 
 import (
-	_ "github.com/deepzz0/appdemo/docs" // docs
+	_ "github.com/deepzz0/appdemo/pkg/core/demo/docs" // docs
 
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"

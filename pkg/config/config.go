@@ -24,8 +24,11 @@ var (
 
 // Mode run mode
 type Mode struct {
-	EnableHTTP bool `yaml:"enablehttp"`
-	HTTPPort   int  `yaml:"httpport"`
+	Name       string `yaml:"name"`
+	EnableHTTP bool   `yaml:"enablehttp"`
+	HTTPPort   int    `yaml:"httpport"`
+	EnableGRPC bool   `yaml:"enablegrpc"`
+	GRPCPort   int    `yaml:"grpcport"`
 }
 
 // Database sql database

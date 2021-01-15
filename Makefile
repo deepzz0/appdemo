@@ -16,3 +16,6 @@ demo:
 build:
 	@scripts/run_build.sh
 
+# protoc
+protoc:
+	@cd pkg/proto && make protoc

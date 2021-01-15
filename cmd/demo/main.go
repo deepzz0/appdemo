@@ -3,6 +3,7 @@ package main
 
 import (
 	"fmt"
+	"net"
 	"net/http"
 	"path/filepath"
 
@@ -11,12 +12,26 @@ import (
 	"github.com/deepzz0/appdemo/pkg/core/demo/user"
 	"github.com/deepzz0/appdemo/pkg/i18n"
 	"github.com/deepzz0/appdemo/pkg/mid"
+	cmd_demo "github.com/deepzz0/appdemo/pkg/proto/cmd-demo"
 
 	"github.com/gin-gonic/gin"
+	"google.golang.org/grpc"
 )
 
 func main() {
 	fmt.Println("Hi, it's App Demo")
+
+	endRun := make(chan bool, 1)
+
+	runHTTPServer(endRun)
+	runGRPCServer(endRun)
+	<-endRun
+}
+
+func runHTTPServer(endRun chan bool) {
+	if !config.Conf.DemoApp.EnableHTTP {
+		return
+	}
 
 	if config.Conf.RunMode == config.ModeProd {
 		gin.SetMode(gin.ReleaseMode)
@@ -56,7 +71,25 @@ func main() {
 	}
 
 	// start
-	if config.Conf.DemoApp.EnableHTTP {
-		e.Run(fmt.Sprintf(":%d", config.Conf.DemoApp.HTTPPort))
+	address := fmt.Sprintf(":%d", config.Conf.DemoApp.HTTPPort)
+	go e.Run(address)
+	fmt.Println("HTTP server running on: " + address)
+}
+
+func runGRPCServer(endRun chan bool) {
+	if !config.Conf.DemoApp.EnableGRPC {
+		return
 	}
+
+	address := fmt.Sprintf(":%v", config.Conf.DemoApp.GRPCPort)
+	lis, err := net.Listen("tcp", address)
+	if err != nil {
+		panic(err)
+	}
+
+	s := grpc.NewServer()
+	cmd_demo.RegisterUserServer(s, &user.UserSrv{})
+
+	go s.Serve(lis)
+	fmt.Println("GRPC server running on: " + address)
 }
