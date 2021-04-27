@@ -49,9 +49,9 @@ type Config struct {
 func init() {
 	// compatibility linux and windows
 	var err error
-	WorkDir, err = os.Getwd()
-	if err != nil {
-		panic(err)
+	if gopath := os.Getenv("GOPATH"); gopath != "" {
+		WorkDir = filepath.Join(gopath, "src", "github.com",
+			"deepzz0", "appdemo")
 	}
 	path := filepath.Join(WorkDir, "conf", "app.yml")
 
