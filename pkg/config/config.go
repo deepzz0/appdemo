@@ -50,8 +50,8 @@ func init() {
 	// compatibility linux and windows
 	var err error
 	if gopath := os.Getenv("GOPATH"); gopath != "" {
-		WorkDir = filepath.Join(gopath, "src", "github.com",
-			"deepzz0", "appdemo")
+		WorkDir = filepath.Join(gopath, "src",
+			"github.com", "deepzz0", "appdemo")
 	}
 	path := filepath.Join(WorkDir, "conf", "app.yml")
 

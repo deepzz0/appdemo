@@ -25,6 +25,12 @@ _sed_i() {
   fi
 }
 
+_contains() {
+  _str="$1"
+  _sub="$2"
+  echo "$_str" | grep -- "$_sub" >/dev/null 2>&1
+}
+
 printf 'Project [\33[1;32m%b\33[0m], initializing...\n' "$appname"
 
 # rename appname
@@ -38,6 +44,12 @@ echo "Clean go.mod"
 # rename package ref
 find . -name "*.go" | while read fname; do
   _sed_i "s/$old/$new/g" "$fname"
+  if _contains "$fname" "pkg/config"; then
+    # special file
+    _path=$(echo $new | sed 's/\\\//", "/')
+    _sed_i "s/\"github.com\", \"deepzz0\", \"appdemo\"/\"$_path\"/g" \
+      "$fname"
+  fi
 done
 echo "Clean *.go"
 
