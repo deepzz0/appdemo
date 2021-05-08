@@ -11,4 +11,4 @@ COPY conf /app/conf
 EXPOSE 9000
 
 WORKDIR /app
-CMD ["backend"]
+CMD ["./backend"]

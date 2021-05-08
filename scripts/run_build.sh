@@ -16,7 +16,7 @@ mkdir -p ./bin
 # build demo app
 for file in pkg/core/*; do
   app="$(basename $file)";
-  GOOS=linux GOARCH=amd64 go build -o bin/backend "./cmd/$app"
+  GOOS=linux GOARCH=amd64 go build -tags prod -o bin/backend "./cmd/$app"
   docker build -f "build/package/$app.Dockerfile" -t "$_registry/$app:$_tag" .
 done
 

@@ -49,10 +49,7 @@ type Config struct {
 func init() {
 	// compatibility linux and windows
 	var err error
-	if gopath := os.Getenv("GOPATH"); gopath != "" {
-		WorkDir = filepath.Join(gopath, "src",
-			"github.com", "deepzz0", "appdemo")
-	}
+	WorkDir = workDir()
 	path := filepath.Join(WorkDir, "conf", "app.yml")
 
 	data, err := ioutil.ReadFile(path)

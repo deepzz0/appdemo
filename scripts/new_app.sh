@@ -44,12 +44,6 @@ echo "Clean go.mod"
 # rename package ref
 find . -name "*.go" | while read fname; do
   _sed_i "s/$old/$new/g" "$fname"
-  if _contains "$fname" "pkg/config"; then
-    # special file
-    _path=$(echo $new | sed 's/\\\//", "/')
-    _sed_i "s/\"github.com\", \"deepzz0\", \"appdemo\"/\"$_path\"/g" \
-      "$fname"
-  fi
 done
 echo "Clean *.go"
 

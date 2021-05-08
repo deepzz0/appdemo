@@ -19,7 +19,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Hi, it's App Demo")
+	fmt.Println("Hi, it's App " + config.Conf.DemoApp.Name)
 
 	endRun := make(chan bool, 1)
 
