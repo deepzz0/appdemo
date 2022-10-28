@@ -1,5 +1,5 @@
-// Package mid provides ...
-package mid
+// Package session provides ...
+package session
 
 import (
 	"github.com/gin-contrib/sessions"
@@ -7,8 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// SessionOpts 设置选项
-type SessionOpts struct {
+// Options 设置选项
+type Options struct {
 	Secure bool
 	Secret []byte
 	// redis store
@@ -16,8 +16,8 @@ type SessionOpts struct {
 	RedisPwd  string
 }
 
-// SessionMiddleware session中间件
-func SessionMiddleware(opts SessionOpts) gin.HandlerFunc {
+// Middleware session中间件
+func Middleware(opts Options) gin.HandlerFunc {
 	store := cookie.NewStore(opts.Secret)
 	store.Options(sessions.Options{
 		MaxAge:   86400 * 30,

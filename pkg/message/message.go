@@ -1,5 +1,5 @@
-// Package msg provides ...
-package msg
+// Package message provides ...
+package message
 
 import (
 	"net/http"

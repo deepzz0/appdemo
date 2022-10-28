@@ -2,8 +2,8 @@
 
 set -e
 
-# ensuer new app?
-read -p "Are you sure new app? [y/n] " ensure
+# ensuer reset project?
+read -p "Are you sure reset project? [y/n] " ensure
 if [ "$ensure" != "y" ]; then
   exit 0
 fi
