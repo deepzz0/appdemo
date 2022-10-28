@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"github.com/deepzz0/appdemo/pkg/i18n"
-	"github.com/deepzz0/appdemo/pkg/mod/demo/user"
-	"github.com/deepzz0/appdemo/pkg/msg"
+	"github.com/deepzz0/appdemo/pkg/message"
+	"github.com/deepzz0/appdemo/pkg/model/user"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -57,10 +57,10 @@ type registerReq struct {
 // @Accept json
 // @Produce json
 // @Param req body registerReq true "register info"
-// @Success 200 {object} msg.Message
+// @Success 200 {object} message.Message
 // @Router /register [post]
 func handleRegister(c *gin.Context) {
-	msg := &msg.Message{}
+	msg := &message.Message{}
 	defer msg.JSON(c)
 
 	var req registerReq
@@ -112,10 +112,10 @@ type loginReq registerReq
 // @Accept json
 // @Produce json
 // @Param req body loginReq true "login info"
-// @Success 200 {object} msg.Message
+// @Success 200 {object} message.Message
 // @Router /login [post]
 func handleLogin(c *gin.Context) {
-	msg := &msg.Message{}
+	msg := &message.Message{}
 	defer msg.JSON(c)
 
 	var req registerReq
@@ -159,10 +159,10 @@ func handleLogin(c *gin.Context) {
 // @Tags User
 // @Accept json
 // @Produce json
-// @Success 200 {object} msg.Message
+// @Success 200 {object} message.Message
 // @Router /logout [get]
 func handleLogout(c *gin.Context) {
-	msg := &msg.Message{}
+	msg := &message.Message{}
 	defer msg.JSON(c)
 
 	session := sessions.Default(c)
@@ -180,7 +180,7 @@ func handleLogout(c *gin.Context) {
 // @Success 200 {object} user.User
 // @Router /userinfo [get]
 func handleUserInfo(c *gin.Context) {
-	msg := &msg.Message{}
+	msg := &message.Message{}
 	defer msg.JSON(c)
 
 	u := c.Keys["user"].(*user.User)

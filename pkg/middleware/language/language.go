@@ -1,5 +1,5 @@
-// Package mid provides ...
-package mid
+// Package language provides ...
+package language
 
 import (
 	"strings"
@@ -7,15 +7,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// LangOpts 语言选项
-type LangOpts struct {
+// Options 语言选项
+type Options struct {
 	CookieName string
 	Default    string
 	Supported  []string
 }
 
 // isExist language
-func (opts LangOpts) isExist(l string) bool {
+func (opts Options) isExist(l string) bool {
 	for _, v := range opts.Supported {
 		if v == l {
 			return true
@@ -24,8 +24,8 @@ func (opts LangOpts) isExist(l string) bool {
 	return false
 }
 
-// LangMiddleware set language
-func LangMiddleware(opts LangOpts) gin.HandlerFunc {
+// Middleware set language
+func Middleware(opts Options) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		lang, err := c.Cookie(opts.CookieName)
 		// found cookie

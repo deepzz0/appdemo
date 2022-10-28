@@ -4,6 +4,7 @@ set -e
 
 _registry="$1"
 _tag="$2"
+_app="$3"
 
 if [ -z "$_registry" ] || [ -z "$_tag" ]; then
   echo "Please specify image repository and tag."
@@ -14,11 +15,8 @@ fi
 mkdir -p ./bin
 
 # build demo app
-for file in pkg/core/*; do
-  app="$(basename $file)";
-  GOOS=linux GOARCH=amd64 go build -tags prod -o bin/backend "./cmd/$app"
-  docker build -f "build/package/$app.Dockerfile" -t "$_registry/$app:$_tag" .
-done
+GOOS=linux GOARCH=amd64 go build -tags prod -o bin/backend "./cmd/$_app"
+docker build -f "build/package/$_app.Dockerfile" -t "$_registry/$_app:$_tag" .
 
 # clean dir ./bin
 rm -rf ./bin

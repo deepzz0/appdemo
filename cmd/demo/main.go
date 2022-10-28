@@ -7,16 +7,24 @@ import (
 	"net/http"
 	"path/filepath"
 
+	cmd_demo "github.com/deepzz0/appdemo/api/cmd-demo"
+	"github.com/deepzz0/appdemo/cmd/demo/rpc"
+	"github.com/deepzz0/appdemo/cmd/demo/swag"
+	"github.com/deepzz0/appdemo/cmd/demo/user"
 	"github.com/deepzz0/appdemo/pkg/config"
-	"github.com/deepzz0/appdemo/pkg/core/demo/swag"
-	"github.com/deepzz0/appdemo/pkg/core/demo/user"
 	"github.com/deepzz0/appdemo/pkg/i18n"
-	"github.com/deepzz0/appdemo/pkg/mid"
-	cmd_demo "github.com/deepzz0/appdemo/pkg/proto/cmd-demo"
+	"github.com/deepzz0/appdemo/pkg/middleware/language"
+	"github.com/deepzz0/appdemo/pkg/middleware/session"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
 )
+
+// @title APP Demo API
+// @version 1.0
+// @description This is a sample server celler server.
+
+// @BasePath /api
 
 func main() {
 	fmt.Println("Hi, it's App " + config.Conf.DemoApp.Name)
@@ -42,12 +50,12 @@ func runHTTPServer(endRun chan bool) {
 	e.LoadHTMLGlob(glob)
 
 	// middleware
-	e.Use(mid.LangMiddleware(mid.LangOpts{
+	e.Use(language.Middleware(language.Options{
 		CookieName: "lang",
 		Default:    i18n.GetDefaultLang(),
 		Supported:  i18n.GetSupportedLang(),
 	}))
-	e.Use(mid.SessionMiddleware(mid.SessionOpts{
+	e.Use(session.Middleware(session.Options{
 		Secure: config.Conf.RunMode == config.ModeProd,
 		Secret: []byte("ZGlzvcmUoMTAsICI="),
 	}))
@@ -88,7 +96,7 @@ func runGRPCServer(endRun chan bool) {
 	}
 
 	s := grpc.NewServer()
-	cmd_demo.RegisterUserServer(s, &user.UserSrv{})
+	cmd_demo.RegisterUserServer(s, &rpc.UserSrv{})
 
 	go s.Serve(lis)
 	fmt.Println("GRPC server running on: " + address)

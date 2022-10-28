@@ -24,25 +24,32 @@ var (
 
 // Mode run mode
 type Mode struct {
-	Name       string `yaml:"name"`
-	EnableHTTP bool   `yaml:"enablehttp"`
-	HTTPPort   int    `yaml:"httpport"`
-	EnableGRPC bool   `yaml:"enablegrpc"`
-	GRPCPort   int    `yaml:"grpcport"`
+	Name       string
+	EnableHTTP bool
+	HTTPPort   int
+	EnableGRPC bool
+	GRPCPort   int
 }
 
 // Database sql database
 type Database struct {
-	Driver string `yaml:"driver"`
-	Source string `yaml:"source"`
+	Driver string
+	Source string
+}
+
+// CacheRedis cache redis
+type CacheRedis struct {
+	Host     string
+	Password string
+	DB       int
 }
 
 // Config app config
 type Config struct {
-	RunMode  string   `yaml:"runmode"`
-	AppName  string   `yaml:"appname"`
-	Database Database `yaml:"database"`
-	DemoApp  Mode     `yaml:"demoapp"`
+	RunMode  string
+	AppName  string
+	Database Database
+	DemoApp  Mode
 }
 
 // load config file

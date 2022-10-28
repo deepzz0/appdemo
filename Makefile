@@ -3,22 +3,31 @@
 REGISTRY=localhost
 IMAGE_TAG=`git describe --tags`
 
+usage:
+	@echo
+	@echo '  Usage for migrate app:'
+	@echo '    make swag                   generate all app swagger docs.'
+	@echo '    make docker                 build docker image.'
+	@echo '    make run app=<demo>         run app locally.'
+	@echo '    make protoc                 generate all protocol files'
+	@echo '    make _new                   new project at current dir.'
+
+# swagger
 swag:
-	@scripts/swag_init.sh
-
-_app:
-	@scripts/new_app.sh
-
-# below you should write
-
-# run demo app
-demo:
-	@scripts/run_app.sh demo
+	@scripts/swag.sh $(app)
 
 # build docker
-build:
-	@scripts/run_build.sh $(REGISTRY) $(IMAGE_TAG)
+docker:
+	@scripts/docker.sh $(REGISTRY) $(IMAGE_TAG) $(app)
+
+# run app
+run:
+	@scripts/run.sh $(app)
 
 # protoc
 protoc:
-	@cd pkg/proto && make protoc
+	@scripts/protoc.sh
+
+# new project
+_new:
+	@scripts/new_proj.sh

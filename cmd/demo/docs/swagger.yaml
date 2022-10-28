@@ -2,10 +2,8 @@ basePath: /api
 definitions:
   msg.Message:
     properties:
-      code:
-        type: RespCode
-      data:
-        type: object
+      code: {}
+      data: {}
       error:
         type: string
     type: object
@@ -27,7 +25,12 @@ definitions:
         type: string
     type: object
   user.loginReq:
-    $ref: '#/definitions/user.registerReq'
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
   user.registerReq:
     properties:
       password:
@@ -38,7 +41,6 @@ definitions:
 info:
   contact: {}
   description: This is a sample server celler server.
-  license: {}
   title: APP Demo API
   version: "1.0"
 paths:
