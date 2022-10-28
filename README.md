@@ -11,7 +11,7 @@ $ git clone git@github.com:deepzz0/appdemo.git <app name>
 3、Enter your app, run:
 ```
 $ cd <app name>
-$ make _app
+$ make _new
 ```
 
 3、Push the code to new repo:
@@ -22,7 +22,7 @@ $ git remote add origin <your repo>
 $ git push -u origin master
 ```
 
-4、`make demo` you can start your web app.
+4、`make run app=demo` you can start your web app.
 
 ### Development
 
@@ -31,19 +31,23 @@ $ git push -u origin master
 Understand the directory.
 
 ```
-.
-├── build             # Packaging and CI.
-├── cmd               # Main applications for this app.
-├── conf              # Static configuration file.
-├── docs              # Design and user documents.
-├── pkg               # Library code that's ok to use by external applications.
-├── scripts           # Scripts to perform various build, install, analysis, etc operations.
-├── website           # APP's website data.
-├── CHANGELOG.md      # Record version change.
-├── LICENSE           # Open source license
-├── Makefile          # Makefile: call scripts
-├── README.md         # Read me docs.
-└── go.mod            # Go mod file.
+├── CHANGELOG.md     # Record version change.
+├── LICENSE          # Open source license
+├── Makefile         # Makefile: call scripts
+├── README.md        # Read me docs.
+├── api              # Protocol file
+├── assets           # Assets
+├── build            # Packaging and Continuous Integration.
+├── cmd              # Main applications for this app.
+├── conf             # Static configuration file.
+├── docs             # Design and user documents.
+├── examples         # Examples
+├── go.mod           # Go mod file.
+├── go.sum           # Go mod lock file
+├── init             # Init scripts
+├── pkg              # Library code that's ok to use by external applications.
+├── scripts          # Scripts to perform various build, install, analysis, etc operations.
+└── website          # APP's website data.
 ```
 
 
@@ -51,6 +55,5 @@ Understand the directory.
 **Step2**
 
 Code in pkg and cmd or website.
-
 
 
